@@ -3,6 +3,10 @@ h1 {
   font-family: "Bitter";
 }
 
+span {
+  margin: 5px;
+}
+
 .empty {
   text-align: center;
   font-size: 20px;
@@ -21,7 +25,8 @@ h1 {
 
 .close {
   color: red;
-  visibility: hidden;
+  /*visibility: hidden;*/
+  display: none;
 }
 
 .filter span {

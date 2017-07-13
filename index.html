@@ -37,7 +37,7 @@
               <form id="todoform">
                 <div class="form-group">
                   <div class="input-group">
-                    <input required class="form-control input-lg" type="text" placeholder="What to do today?">
+                    <input required id='todoinput' class="form-control input-lg" type="text" placeholder="What to do today?">
                     <div id="submittodo" class="input-group-addon"><i class="fa fa-send fa-2x"></i></div>
                   </div>
                 </div>
@@ -48,30 +48,18 @@
           <div class="clearfix"></div>
 
           <div class="list">
+            <!--This is where all our data will go-->
+            <div class="item">
+              <div class="empty">
 
-            <div class="empty">
-              <p>Nothing to show here</p>
-            </div>
-            <hr>
-            <hr>
-
-            <div class="items">
-
-              <div class="todo current">
-                <input class="item-box" type="checkbox"><span>Todo something</span><i class="pull-right close">x</i>
               </div>
-
-              <div class="todo completed">
-                <input class="item-box" type="checkbox"><span>Todo something</span><i class="pull-right close">x</i>
-              </div>
-
             </div>
           </div>
 
           <div>
             <hr>
             <div class="filter">
-              <em class="count">2 items</em>
+              <em class="count"></em>
               <span>All</span>
               <span>Completed</span>
               <span>Active</span>
