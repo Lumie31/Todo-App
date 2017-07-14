@@ -1,30 +1,43 @@
 $(document).ready(function () {
 
   var todos = [];
+  var state = '';
 
-  function render() {
-    $('.empty').empty();
+  function filterByState(todo) {
+    if (state === 'completed') {
+      return todo.completed;
+    } else if (state === 'active') {
+      return !todo.completed;
+    } else if (!state) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function render(todos) {
+    todos = todos.filter(filterByState);
+    // $('.empty').empty();
     $('.item').empty();
     if (todos.length === 0) {
 
       var empty = $(`
-<div class="empty">
-  <p>Nothing to show here</p>
-</div>
-<hr>
+      <div class="empty">
+        <p>Nothing to show here</p>
+      </div>
+      <hr>
 
-</div>
-`)
+      </div>
+      `)
       $('.item').append(empty)
 
     } else {
       for (var i = 0; i < todos.length; i++) {
-        var todoItem = $(
-          `
-  <div id=${todos[i].id} class="todo ${todos[i].completed ? 'completed' : '' }">
-    <input class="item-box" type="checkbox" ${todos[i].completed ? 'checked' : ''}><span>${todos[i].activity}</span><i class="pull-right close">x</i>
-  </div>
-`)
+        var todoItem = $(`
+      <div id=${todos[i].id} class="todo ${todos[i].completed ? 'completed' : '' }">
+        <input class="item-box" type="checkbox" ${todos[i].completed ? 'checked' : ''}><span>${todos[i].activity}</span><i class="pull-right close">x</i>
+      </div>
+      `)
         $('.item').append(todoItem)
       }
     }
@@ -35,6 +48,7 @@ $(document).ready(function () {
     $('.close').click(deleteTodo);
   }
 
+
   function checkChange() {
     var id = $(this).parent().attr('id');
     todos = todos.map(function (todo) {
@@ -43,30 +57,59 @@ $(document).ready(function () {
       }
       return todo;
     })
-    render()
+    render(todos)
   }
 
-  function deleteTodo(){
+  function deleteTodo() {
     var id = $(this).parent().attr('id')
-    todos = todos.filter(function(todo) {
+    todos = todos.filter(function (todo) {
       return todo.id !== id;
     })
-    render()
+    render(todos)
   }
 
-  var todo1 = {
-    activity: 'What to do',
-    id: '0123',
-    created: Date(),
-    completed: false
+  $('.filter .all').click(showAll);
+  $('.filter .completed').click(showCompleted);
+  $('.filter .active').click(showActive);
+
+  function showAll() {
+    // var todoAll = todos;
+    // render(todoAll);
+    state = '';
+    render(todos);
   }
 
-  var todo2 = {
-    activity: 'Another thing to do',
-    id: '0124',
-    created: Date(),
-    completed: true
+  function showCompleted() {
+    // var todoComplete = todos.filter(function (todo) {
+    //   return todo.completed === true;
+    // })
+    // render(todoComplete);
+    state = 'completed';
+    render(todos);
   }
+
+  function showActive() {
+    // var todoActive = todos.filter(function (todo) {
+    //   return todo.completed === false;
+    // })
+    // render(todoActive)
+    state = 'active';
+    render(todos);
+  }
+
+  // var todo1 = {
+  //   activity: 'What to do',
+  //   id: '0123',
+  //   created: Date(),
+  //   completed: false
+  // }
+
+  // var todo2 = {
+  //   activity: 'Another thing to do',
+  //   id: '0124',
+  //   created: Date(),
+  //   completed: true
+  // }
 
 
   $('#submittodo').click(function () {
@@ -80,17 +123,23 @@ $(document).ready(function () {
     // console.log(input);
     if (!input) return
 
-    var todoObj = {};
-    todoObj.activity = input;
-    todoObj.id = 'x' + (todos.length + 1);
-    todoObj.created = Date();
-    todoObj.completed = false;
+    var todoObj = {
+      activity: input,
+      id: 'x' + (Math.random() * 100),
+      created: new Date(),
+      completed: false
+    };
+
+    // todoObj.activity = input;
+    // todoObj.id = 'x' + (Math.random() * 100);
+    // todoObj.created = new Date();
+    // todoObj.completed = false;
 
     todos.unshift(todoObj);
 
     $('#todoinput').val('')
 
-    render()
+    render(todos)
   })
 
   function addHover() {
@@ -101,7 +150,5 @@ $(document).ready(function () {
       $(this).find('.close').toggle();
     })
   }
-  render()
-
-
+  render(todos)
 })
