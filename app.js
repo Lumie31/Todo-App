@@ -1,12 +1,11 @@
-$(document).ready(function () {
-
+$(document).ready(function() {
   var todos = [];
-  var state = '';
+  var state = "";
 
   function filterByState(todo) {
-    if (state === 'completed') {
+    if (state === "completed") {
       return todo.completed;
-    } else if (state === 'active') {
+    } else if (state === "active") {
       return !todo.completed;
     } else if (!state) {
       return true;
@@ -18,9 +17,8 @@ $(document).ready(function () {
   function render(todos) {
     todos = todos.filter(filterByState);
     // $('.empty').empty();
-    $('.item').empty();
+    $(".item").empty();
     if (todos.length === 0) {
-
       var empty = $(`
       <div class="empty">
         <p>Nothing to show here</p>
@@ -28,54 +26,57 @@ $(document).ready(function () {
       <hr>
 
       </div>
-      `)
-      $('.item').append(empty)
-
+      `);
+      $(".item").append(empty);
     } else {
       for (var i = 0; i < todos.length; i++) {
         var todoItem = $(`
-      <div id=${todos[i].id} class="todo ${todos[i].completed ? 'completed' : '' }">
-        <input class="item-box" type="checkbox" ${todos[i].completed ? 'checked' : ''}><span>${todos[i].activity}</span><i class="pull-right close">x</i>
+      <div id=${todos[i].id} class="todo ${todos[i].completed
+          ? "completed"
+          : ""}">
+        <input class="item-box" type="checkbox" ${todos[i].completed
+          ? "checked"
+          : ""}><span>${todos[i]
+          .activity}</span><i class="pull-right close">x</i>
       </div>
-      `)
-        $('.item').append(todoItem)
+      `);
+        $(".item").append(todoItem);
       }
     }
 
-    $('.count').html(todos.length + ' item' + (todos.length === 1 ? '' : 's'))
+    $(".count").html(todos.length + " item" + (todos.length === 1 ? "" : "s"));
     addHover();
-    $('.item-box').change(checkChange)
-    $('.close').click(deleteTodo);
+    $(".item-box").change(checkChange);
+    $(".close").click(deleteTodo);
   }
 
-
   function checkChange() {
-    var id = $(this).parent().attr('id');
-    todos = todos.map(function (todo) {
+    var id = $(this).parent().attr("id");
+    todos = todos.map(function(todo) {
       if (todo.id === id) {
-        todo.completed = !todo.completed
+        todo.completed = !todo.completed;
       }
       return todo;
-    })
-    render(todos)
+    });
+    render(todos);
   }
 
   function deleteTodo() {
-    var id = $(this).parent().attr('id')
-    todos = todos.filter(function (todo) {
+    var id = $(this).parent().attr("id");
+    todos = todos.filter(function(todo) {
       return todo.id !== id;
-    })
-    render(todos)
+    });
+    render(todos);
   }
 
-  $('.filter .all').click(showAll);
-  $('.filter .completed').click(showCompleted);
-  $('.filter .active').click(showActive);
+  $(".filter .all").click(showAll);
+  $(".filter .completed").click(showCompleted);
+  $(".filter .active").click(showActive);
 
   function showAll() {
     // var todoAll = todos;
     // render(todoAll);
-    state = '';
+    state = "";
     render(todos);
   }
 
@@ -84,7 +85,7 @@ $(document).ready(function () {
     //   return todo.completed === true;
     // })
     // render(todoComplete);
-    state = 'completed';
+    state = "completed";
     render(todos);
   }
 
@@ -93,39 +94,24 @@ $(document).ready(function () {
     //   return todo.completed === false;
     // })
     // render(todoActive)
-    state = 'active';
+    state = "active";
     render(todos);
   }
 
-  // var todo1 = {
-  //   activity: 'What to do',
-  //   id: '0123',
-  //   created: Date(),
-  //   completed: false
-  // }
+  $("#submittodo").click(function() {
+    $("#todoform").submit();
+  });
 
-  // var todo2 = {
-  //   activity: 'Another thing to do',
-  //   id: '0124',
-  //   created: Date(),
-  //   completed: true
-  // }
-
-
-  $('#submittodo').click(function () {
-    $('#todoform').submit()
-  })
-
-  $('#todoform').submit(function (e) {
+  $("#todoform").submit(function(e) {
     e.preventDefault();
     // console.log('Form Submitted!!!')
-    var input = $('#todoinput').val();
+    var input = $("#todoinput").val();
     // console.log(input);
-    if (!input) return
+    if (!input) return;
 
     var todoObj = {
       activity: input,
-      id: 'x' + (Math.random() * 100),
+      id: "x" + Math.random() * 100,
       created: new Date(),
       completed: false
     };
@@ -137,18 +123,18 @@ $(document).ready(function () {
 
     todos.unshift(todoObj);
 
-    $('#todoinput').val('')
+    $("#todoinput").val("");
 
-    render(todos)
-  })
+    render(todos);
+  });
 
   function addHover() {
-    $('.todo').hover(function () {
+    $(".todo").hover(function() {
       //   $(this).find('.close').css('visibility', 'visible')
       // }, function() {
       //   $(this).find('.close').css('visibility', 'hidden')
-      $(this).find('.close').toggle();
-    })
+      $(this).find(".close").toggle();
+    });
   }
-  render(todos)
-})
+  render(todos);
+});
